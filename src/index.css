@@ -1,1 +1,65 @@
 @import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
+
+:root {
+  --primary-color: #05a14e;
+}
+
+.global-p-x {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+nav .active {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.swiper-pagination-bullet {
+  background: #d1d5db;
+  opacity: 1;
+}
+
+.custom-bullet-active {
+  background: #05a14e !important;
+}
+
+.swiper-button-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.primary-btn,
+.secondery-btn {
+  padding: 8px 24px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 2px solid var(--primary-color);
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.primary-btn {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.secondery-btn {
+  background-color: #fff;
+  color: var(--primary-color);
+}
+
+.primary-btn:hover,
+.secondery-btn:hover {
+  scale: 1.04;
+}
+
+@media screen and (width < 48rem) {
+  .global-p-x {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
