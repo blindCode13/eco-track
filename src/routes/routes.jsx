@@ -7,6 +7,8 @@ import Events from "../pages/Events";
 import Leaderboard from "../pages/Leaderboard";
 import axios from "axios";
 import LoadingState from "../components/LoadingState";
+import Login from "../pages/Auth/Login";
+import Register from "../pages/Auth/Register";
 
 export const routes = createBrowserRouter([
     {
@@ -34,6 +36,14 @@ export const routes = createBrowserRouter([
             {
                 path: "/leaderboard",
                 Component: Leaderboard
+            },
+            {
+                path: "/login",
+                Component: Login
+            },
+            {
+                path: "/register",
+                Component: Register
             }
         ]
     }
