@@ -5,6 +5,8 @@ import Challanges from "../pages/Challanges";
 import Tips from "../pages/Tips";
 import Events from "../pages/Events";
 import Leaderboard from "../pages/Leaderboard";
+import axios from "axios";
+import LoadingState from "../components/LoadingState";
 
 export const routes = createBrowserRouter([
     {
@@ -17,7 +19,9 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/challanges",
-                Component: Challanges
+                Component: Challanges,
+                loader: () => axios('/challanges.json').then(resData => resData.data),
+                hydrateFallbackElement: <LoadingState></LoadingState>
             },
             {
                 path: "/tips",

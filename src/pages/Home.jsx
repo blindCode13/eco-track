@@ -77,10 +77,7 @@ const Home = () => {
             Active Challanges
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-            <ChallangesCard></ChallangesCard>
-            <ChallangesCard></ChallangesCard>
-            <ChallangesCard></ChallangesCard>
-            <ChallangesCard></ChallangesCard>
+            {/* <ChallangesCard></ChallangesCard> */}
           </div>
           <button className="primary-btn mt-12">View All Challanges</button>
         </div>
