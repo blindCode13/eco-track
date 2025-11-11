@@ -27,11 +27,15 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/tips",
-                Component: Tips
+                Component: Tips,
+                loader: () => axios('/tips.json').then(resData => resData.data),
+                hydrateFallbackElement: <LoadingState></LoadingState>
             },
             {
                 path: "/events",
-                Component: Events
+                Component: Events,
+                loader: () => axios('/events.json').then(resData => resData.data),
+                hydrateFallbackElement: <LoadingState></LoadingState>
             },
             {
                 path: "/leaderboard",

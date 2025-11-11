@@ -77,7 +77,6 @@ const Home = () => {
             Active Challanges
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-            {/* <ChallangesCard></ChallangesCard> */}
           </div>
           <button className="primary-btn mt-12">View All Challanges</button>
         </div>
@@ -86,12 +85,8 @@ const Home = () => {
           <h2 className="text-2xl text-center md:text-3xl font-bold text-gray-800 mb-8">
             Recent Tips
           </h2>
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-            <TipsCard></TipsCard>
-            <TipsCard></TipsCard>
-            <TipsCard></TipsCard>
-            <TipsCard></TipsCard>
-            <TipsCard></TipsCard>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            
           </div>
           <button className="primary-btn mt-12">View All Tips</button>
         </div>
@@ -100,11 +95,8 @@ const Home = () => {
           <h2 className="text-2xl text-center md:text-3xl font-bold text-gray-800 mb-8">
             Upcoming Events
           </h2>
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-            <EventsCard></EventsCard>
-            <EventsCard></EventsCard>
-            <EventsCard></EventsCard>
-            <EventsCard></EventsCard>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            
           </div>
           <button className="primary-btn mt-12">View All Events</button>
         </div>

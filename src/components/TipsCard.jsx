@@ -1,21 +1,43 @@
+import { format } from "date-fns";
+import {Link} from "react-router";
 
-const TipsCard = () => {
-    return (
-        <div className='p-4 bg-white rounded-xl border-2 border-gray-200'>
-            <div className='flex flex-col md:flex-row gap-6 items-center justify-between'>
-                <div className='max-w-[300px]'>
-                    <h1 className='text-2xl mb-2 font-bold'>How to compost at home</h1>
-                    <p className='line-clamp-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, ea reprehenderit culpa animi eveniet enim voluptatibus. Fuga veritatis quas, consequatur soluta reiciendis debitis repellat tempore non, ratione officia fugit nam?</p>
-                </div>
-                <div>
-                    <h1><span className='font-bold'>By:</span> user@gmail.com</h1>
-                    <h1><span className='font-bold'>Upvotes:</span> 26</h1>
-                    <h1><span className='font-bold'>Created At:</span> 24-09-2025</h1>
-                </div>
-            </div>
-            <h1 className='text-(--primary-color) underline cursor-pointer text-center mt-4'>Read Article</h1>
-        </div>
-    );
+const TipsCard = ({data}) => {
+	return (
+		<div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-out">
+			<div className="mb-3">
+				<h2 className="text-2xl font-semibold text-gray-800 border-l-4 pl-2 border-(--primary-color)">
+					{data.title}
+				</h2>
+			</div>
+
+			<p className="text-gray-600 text-sm mb-5 leading-relaxed line-clamp-2">
+				{data.content}
+			</p>
+
+			<div className="flex flex-wrap items-center justify-between gap-4 text-sm text-gray-700 border-t border-gray-200 pt-3">
+				<div className="space-y-1">
+					<p>
+						<span className="font-semibold">By: </span>
+						{data.author}
+					</p>
+					<p>
+						<span className="font-semibold">Upvotes: </span>
+						{data.upvotes}
+					</p>
+					<p>
+						<span className="font-semibold">Created At: </span>
+						{format(new Date(data.createdAt), "EEEE, dd MMMM yyyy")}
+					</p>
+				</div>
+
+
+				<Link to={"/"}>
+					<p className="text-(--primary-color) font-semibold hover:underline">Read Article →
+					</p>
+				</Link>
+			</div>
+		</div>
+	);
 };
 
 export default TipsCard;
