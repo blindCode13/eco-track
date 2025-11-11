@@ -9,6 +9,8 @@ import axios from "axios";
 import LoadingState from "../components/LoadingState";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import ChallengeDetails from "../components/ChallangeDetails";
+import ChallangeJoin from "../components/ChallangeJoin";
 
 export const routes = createBrowserRouter([
     {
@@ -24,6 +26,14 @@ export const routes = createBrowserRouter([
                 Component: Challanges,
                 loader: () => axios('/challanges.json').then(resData => resData.data),
                 hydrateFallbackElement: <LoadingState></LoadingState>
+            },
+            {
+                path: "/challanges/1",
+                Component: ChallengeDetails
+            },
+            {
+                path: "/challanges/join",
+                Component: ChallangeJoin
             },
             {
                 path: "/tips",

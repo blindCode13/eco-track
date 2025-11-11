@@ -37,7 +37,6 @@ const ChallangesCard = ({data}) => {
                 </div>
                 <div className='flex items-center justify-between gap-4'>
                     <button className='primary-btn w-full text-xs lg:text-sm'>View Details</button>
-                    <button className='secondery-btn w-full text-xs lg:text-sm'>Participate</button>
                 </div>
             </div>
         </div>
