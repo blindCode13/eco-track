@@ -5,7 +5,6 @@ import Challanges from "../pages/Challanges";
 import Tips from "../pages/Tips";
 import Events from "../pages/Events";
 import Leaderboard from "../pages/Leaderboard";
-import axios from "axios";
 import LoadingState from "../components/LoadingState";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
@@ -23,9 +22,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/challanges",
-                Component: Challanges,
-                loader: () => axios('/challanges.json').then(resData => resData.data),
-                hydrateFallbackElement: <LoadingState></LoadingState>
+                Component: Challanges
             },
             {
                 path: "/challanges/1",
@@ -37,15 +34,11 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/tips",
-                Component: Tips,
-                loader: () => axios('/tips.json').then(resData => resData.data),
-                hydrateFallbackElement: <LoadingState></LoadingState>
+                Component: Tips
             },
             {
                 path: "/events",
-                Component: Events,
-                loader: () => axios('/events.json').then(resData => resData.data),
-                hydrateFallbackElement: <LoadingState></LoadingState>
+                Component: Events
             },
             {
                 path: "/leaderboard",

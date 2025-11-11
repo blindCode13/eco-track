@@ -7,10 +7,19 @@ import { FaArrowLeft, FaArrowRight, FaGlobeAsia, FaLeaf, FaRecycle } from "react
 import ChallangesCard from "../components/ChallangesCard";
 import TipsCard from "../components/TipsCard";
 import EventsCard from "../components/EventsCard";
+import useFetchedData from "../hooks/useFetchedData";
+import LoadingState from "../components/LoadingState";
 
 const Home = () => {
+  const [sliderData, loadingS] = useFetchedData("/challanges", {params: {dataLimit: 8}});
+  const [challangesData, loadingC] = useFetchedData("/challanges", {params: {dataLimit: 6}});
+  const [tipsData, loadingT] = useFetchedData("/tips", {params: {dataLimit: 5}});
+  const [eventsData, loadingE] = useFetchedData("/events", {params: {dataLimit: 4}});
   return (
     <div>
+      {
+        loadingS && <LoadingState></LoadingState>
+      }
       <div className="relative w-full global-p-x mx-auto overflow-hidden">
         <button className="swiper-button-prev absolute scale-70 md:scale-100 md:translate-x-[160%] translate-x-[60%] bg-white p-2 rounded-full shadow z-10">
           <FaArrowLeft size={28} color="var(--primary-color)" />
@@ -35,12 +44,10 @@ const Home = () => {
           allowTouchMove={true}
           speed={600}
         >
-          <SwiperSlide>
-            <SliderCards></SliderCards>
-          </SwiperSlide>
-          <SwiperSlide>
-            <SliderCards></SliderCards>
-          </SwiperSlide>
+          {
+            !loadingS && sliderData.map(item => <SwiperSlide><SliderCards data={item}></SliderCards></SwiperSlide>)
+          }
+          
         </Swiper>
       </div>
 
@@ -76,7 +83,13 @@ const Home = () => {
           <h2 className="text-2xl text-center md:text-3xl font-bold text-gray-800 mb-8">
             Active Challanges
           </h2>
+            {
+              loadingC && <div className="py-12 w-full"><LoadingState></LoadingState></div>
+            }
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+            {
+              !loadingC && challangesData.map(item => <ChallangesCard data={item} key={item._id}></ChallangesCard>)
+            }
           </div>
           <button className="primary-btn mt-12">View All Challanges</button>
         </div>
@@ -85,8 +98,13 @@ const Home = () => {
           <h2 className="text-2xl text-center md:text-3xl font-bold text-gray-800 mb-8">
             Recent Tips
           </h2>
+            {
+              loadingT && <div className="py-12 w-full"><LoadingState></LoadingState></div>
+            }
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            
+            {
+              !loadingT && tipsData.map(item => <TipsCard data={item} key={item._id}></TipsCard>)
+            }
           </div>
           <button className="primary-btn mt-12">View All Tips</button>
         </div>
@@ -95,8 +113,13 @@ const Home = () => {
           <h2 className="text-2xl text-center md:text-3xl font-bold text-gray-800 mb-8">
             Upcoming Events
           </h2>
+            {
+              loadingE && <div className="py-12 w-full"><LoadingState></LoadingState></div>
+            }
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            
+            {
+              !loadingE && eventsData.map(item => <EventsCard data={item} key={item._id}></EventsCard>)
+            }
           </div>
           <button className="primary-btn mt-12">View All Events</button>
         </div>
@@ -221,17 +244,17 @@ const Home = () => {
   );
 };
 
-const SliderCards = () => {
+const SliderCards = ({data}) => {
   return (
     <div className="relative">
       <div className="mx-auto w-full lg:w-3/5 rounded-3xl overflow-hidden relative">
-        <div className="absolute top-0 w-full h-full bg-[#0000004d]"></div>
-        <img src="https://picsum.photos/id/1018/800/400" className="w-full" />
+        <div className="absolute top-0 w-full h-full bg-[#6d6d6d6b] backdrop-blur-xl"></div>
+        <img src={data.imageUrl} className="w-full aspect-video"/>
       </div>
       
       <div className="absolute flex flex-col items-center justify-center w-full h-full top-0 scale-[0.6] md:scale-100">
-        <h1 className="text-4xl md:text-6xl text-white mb-4">Plastic Free July</h1>
-        <p className="text-white max-w-[400px] text-center">Join your neighbors for a weekend park and street clean-up to restore your local environment.</p>
+        <h1 className="text-4xl md:text-6xl text-white mb-4">{data.title}</h1>
+        <p className="text-white max-w-[400px] text-center">{data.description}</p>
         <button className="primary-btn mt-6">View Challange</button>
       </div>
     </div>
