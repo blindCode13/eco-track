@@ -94,7 +94,7 @@ const Home = () => {
               !loadingC && challangesData.map(item => <ChallangesCard data={item} key={item._id}></ChallangesCard>)
             }
           </div>
-          <button className="primary-btn mt-12">View All Challanges</button>
+          <button className="primary-btn mt-12" onClick={() => navigate("challanges")}>View All Challanges</button>
         </div>
 
         <div className="flex flex-col items-center mt-16">
@@ -109,7 +109,7 @@ const Home = () => {
               !loadingT && tipsData.map(item => <TipsCard data={item} key={item._id}></TipsCard>)
             }
           </div>
-          <button className="primary-btn mt-12">View All Tips</button>
+          <button className="primary-btn mt-12" onClick={() => navigate("tips")}>View All Tips</button>
         </div>
 
         <div className="flex flex-col items-center mt-16">
@@ -124,7 +124,7 @@ const Home = () => {
               !loadingE && eventsData.map(item => <EventsCard data={item} key={item._id}></EventsCard>)
             }
           </div>
-          <button className="primary-btn mt-12">View All Events</button>
+          <button className="primary-btn mt-12" onClick={() => navigate("/events")}>View All Events</button>
         </div>
 
         <section className="py-16">
