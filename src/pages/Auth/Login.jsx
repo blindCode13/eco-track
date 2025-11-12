@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import LoginImage from "../../assets/login_bg.png";
+import { Link } from "react-router";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +26,7 @@ export default function Login() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)" required
               />
             </div>
 
@@ -35,7 +36,7 @@ export default function Login() {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)" required
                 />
                 <button
                   type="button"
@@ -47,16 +48,11 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="flex justify-end text-sm text-gray-500 hover:text-(--primary-color) cursor-pointer">
-              Forgot your password?
-            </div>
+            <span className="flex justify-end text-sm text-gray-500 hover:text-(--primary-color) cursor-pointer">
+              <Link to={"/forgot-password"}>Forgot your password?</Link>
+            </span>
 
-            <button
-              type="submit"
-              className="w-full primary-btn"
-            >
-              Login
-            </button>
+            <input type="submit" className="w-full primary-btn" value="Login"/>
 
             <div className="flex items-center my-4">
               <hr className="grow border-gray-300" />
@@ -64,18 +60,18 @@ export default function Login() {
               <hr className="grow border-gray-300" />
             </div>
 
-            <button
+          </form>
+          <button
               className="w-full border border-gray-300 rounded-lg py-2 flex items-center justify-center gap-3 hover:bg-gray-50 transition cursor-pointer"
             >
               <FaGoogle className="text-(--primary-color) text-xl" />
               <span className="font-medium text-gray-700">Sign in with Google</span>
             </button>
-          </form>
 
           <p className="text-sm text-gray-600 text-center mt-6">
             Don’t have an account?{" "}
             <span className="text-(--primary-color) font-semibold cursor-pointer hover:underline">
-              Register
+              <Link to={"/register"}>Register</Link>
             </span>
           </p>
         </div>

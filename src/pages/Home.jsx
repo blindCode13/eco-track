@@ -9,12 +9,15 @@ import TipsCard from "../components/TipsCard";
 import EventsCard from "../components/EventsCard";
 import useFetchedData from "../hooks/useFetchedData";
 import LoadingState from "../components/LoadingState";
+import { useNavigate } from "react-router";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [sliderData, loadingS] = useFetchedData("/challanges", {params: {dataLimit: 8}});
   const [challangesData, loadingC] = useFetchedData("/challanges", {params: {dataLimit: 6}});
   const [tipsData, loadingT] = useFetchedData("/tips", {params: {dataLimit: 5}});
   const [eventsData, loadingE] = useFetchedData("/events", {params: {dataLimit: 4}});
+
   return (
     <div>
       {
@@ -45,7 +48,7 @@ const Home = () => {
           speed={600}
         >
           {
-            !loadingS && sliderData.map(item => <SwiperSlide><SliderCards data={item}></SliderCards></SwiperSlide>)
+            !loadingS && sliderData.map(item => <SwiperSlide><SliderCards data={item} key={item._key} navigate={navigate}></SliderCards></SwiperSlide>)
           }
           
         </Swiper>
@@ -244,18 +247,18 @@ const Home = () => {
   );
 };
 
-const SliderCards = ({data}) => {
+const SliderCards = ({data, navigate}) => {
   return (
     <div className="relative">
       <div className="mx-auto w-full lg:w-3/5 rounded-3xl overflow-hidden relative">
-        <div className="absolute top-0 w-full h-full bg-[#6d6d6d6b] backdrop-blur-xl"></div>
+        <div className="absolute top-0 w-full h-full bg-[#0000006b] backdrop-blur-[10px]"></div>
         <img src={data.imageUrl} className="w-full aspect-video"/>
       </div>
       
       <div className="absolute flex flex-col items-center justify-center w-full h-full top-0 scale-[0.6] md:scale-100">
         <h1 className="text-4xl md:text-6xl text-white mb-4">{data.title}</h1>
         <p className="text-white max-w-[400px] text-center">{data.description}</p>
-        <button className="primary-btn mt-6">View Challange</button>
+        <button className="primary-btn mt-6" onClick={() => navigate(`/challanges/${data._id}`)}>View Challange</button>
       </div>
     </div>
   );

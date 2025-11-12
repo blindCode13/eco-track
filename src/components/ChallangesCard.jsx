@@ -1,6 +1,7 @@
-import React from 'react';
+import { useNavigate } from 'react-router';
 
 const ChallangesCard = ({data}) => {
+    const navigate = useNavigate();
     return (
         <div className='bg-white rounded-xl p-4 border-2 border-gray-200'>
             <div className='relative rounded-xl overflow-hidden aspect-3/2'>
@@ -36,7 +37,7 @@ const ChallangesCard = ({data}) => {
                     </div>
                 </div>
                 <div className='flex items-center justify-between gap-4'>
-                    <button className='primary-btn w-full text-xs lg:text-sm'>View Details</button>
+                    <button className='primary-btn w-full text-xs lg:text-sm' onClick={() => navigate(`/challanges/${data._id}`)}>View Details</button>
                 </div>
             </div>
         </div>

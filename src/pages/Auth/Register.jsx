@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import RegisterImage from "../../assets/register_bg.png";
+import { Link } from "react-router";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +26,7 @@ export default function Register() {
               <input
                 type="text"
                 placeholder="Enter your full name"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)" required
               />
             </div>
 
@@ -43,7 +44,7 @@ export default function Register() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)" required
               />
             </div>
 
@@ -53,7 +54,7 @@ export default function Register() {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)" required
                 />
                 <button
                   type="button"
@@ -65,29 +66,25 @@ export default function Register() {
               </div>
             </div>
 
-            <button type="submit" className="w-full primary-btn">
-              Register
-            </button>
+            <input type="submit" className="w-full primary-btn" value="Register"/>
 
             <div className="flex items-center my-4">
               <hr className="grow border-gray-300" />
               <span className="px-3 text-gray-400 text-sm">or</span>
               <hr className="grow border-gray-300" />
             </div>
-
-            <button
-              type="button"
+          </form>
+          <button
               className="w-full border border-gray-300 rounded-lg py-2 flex items-center justify-center gap-3 hover:bg-gray-50 transition cursor-pointer"
             >
               <FaGoogle className="text-(--primary-color) text-xl" />
               <span className="font-medium text-gray-700">Register with Google</span>
             </button>
-          </form>
 
           <p className="text-sm text-gray-600 text-center mt-6">
             Already have an account?{" "}
             <span className="text-(--primary-color) font-semibold cursor-pointer hover:underline">
-              Login
+              <Link to={"/login"}>Login</Link>
             </span>
           </p>
         </div>

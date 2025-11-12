@@ -10,6 +10,7 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import ChallengeDetails from "../components/ChallangeDetails";
 import ChallangeJoin from "../components/ChallangeJoin";
+import ForgotPassword from "../pages/Auth/ForgotPassword";
 
 export const routes = createBrowserRouter([
     {
@@ -25,7 +26,7 @@ export const routes = createBrowserRouter([
                 Component: Challanges
             },
             {
-                path: "/challanges/1",
+                path: "/challanges/:id",
                 Component: ChallengeDetails
             },
             {
@@ -51,6 +52,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/register",
                 Component: Register
+            },
+            {
+                path: "/forgot-password",
+                Component: ForgotPassword
             }
         ]
     }
