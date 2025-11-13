@@ -32,7 +32,7 @@ const Navbar = () => {
                     {
                         user && 
                         <>
-                            <img src={(user && user?.photoURL) || UserDefault} referrerPolicy="no-referrer" className='size-12 border-2 border-gray-300 rounded-full cursor-pointer' onClick={() => setDropDown(!dropDown)}/>
+                            <img src={(user && user?.photoURL) || UserDefault} referrerPolicy="no-referrer" className='size-12 border-2 border-(--primary-color) rounded-full cursor-pointer' onClick={() => setDropDown(!dropDown)}/>
                             {
                                 dropDown && <ProfileDropdown setDropDown={setDropDown} userData={user} signOutUser={signOutUser} setLoading={setLoading} navigate={navigate} setModalShow={setModalShow}></ProfileDropdown>
                             }
@@ -107,10 +107,10 @@ const NavMiddle = () => {
     return (
         <ul className={`items-center justify-center gap-7 flex flex-wrap`}>
             <li><NavLink to={"/"}>Home</NavLink></li>
-            <li><NavLink to={"/challanges"} end>Challanges</NavLink></li>
+            <li><NavLink to={"/challenges"} end>Challenges</NavLink></li>
             <li><NavLink to={"/tips"}>Tips</NavLink></li>
             <li><NavLink to={"/events"}>Events</NavLink></li>
-            <li><NavLink to={"/leaderboard"}>Leaderboard</NavLink></li>
+            <li><NavLink to={"/challenges/add"}>Add Challenge</NavLink></li>
         </ul>
     );
 };
@@ -124,7 +124,7 @@ const Btns = ({navigate}) => {
     );
 };
 
-const ProfileDropdown = ({setDropDown, userData, setModalShow}) => {
+const ProfileDropdown = ({setDropDown, userData, setModalShow, navigate}) => {
   return (
     <div className="absolute left-1/2 lg:left-auto -translate-x-1/2 lg:translate-x-0 lg:right-4 mt-6 lg:mt-18 w-64 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200 z-50">
       
@@ -146,7 +146,7 @@ const ProfileDropdown = ({setDropDown, userData, setModalShow}) => {
           My Activities
         </button>
 
-        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer">
+        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer" onClick={() => {navigate("/profile"); setDropDown(false)}}>
           <FaUser className="text-(--primary-color)" />
           Profile
         </button>

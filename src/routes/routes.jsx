@@ -1,16 +1,18 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home";
-import Challanges from "../pages/Challanges";
+import Challenges from "../pages/Challenges";
+import ChallengeDetails from "../components/ChallangeDetails";
+import ChallengeJoin from "../components/ChallengeJoin";
+import TrackChallenge from '../components/TrackChallenge';
+import AddChallenge from '../pages/AddChallange';
 import Tips from "../pages/Tips";
 import Events from "../pages/Events";
-import Leaderboard from "../pages/Leaderboard";
-import LoadingState from "../components/LoadingState";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
-import ChallengeDetails from "../components/ChallangeDetails";
-import ChallangeJoin from "../components/ChallangeJoin";
+import Profile from "../pages/Profile";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+
 
 export const routes = createBrowserRouter([
     {
@@ -22,16 +24,24 @@ export const routes = createBrowserRouter([
                 Component: Home
             },
             {
-                path: "/challanges",
-                Component: Challanges
+                path: "/challenges",
+                Component: Challenges
             },
             {
-                path: "/challanges/:id",
+                path: "/challenges/:id",
                 Component: ChallengeDetails
             },
             {
-                path: "/challanges/join",
-                Component: ChallangeJoin
+                path: "/challenges/join/:id",
+                Component: ChallengeJoin
+            },
+            {
+                path: "/my-activities/track",
+                Component: TrackChallenge
+            },
+            {
+                path: "/challenges/add",
+                Component: AddChallenge
             },
             {
                 path: "/tips",
@@ -42,16 +52,16 @@ export const routes = createBrowserRouter([
                 Component: Events
             },
             {
-                path: "/leaderboard",
-                Component: Leaderboard
-            },
-            {
                 path: "/login",
                 Component: Login
             },
             {
                 path: "/register",
                 Component: Register
+            },
+            {
+                path: "/profile",
+                Component: Profile
             },
             {
                 path: "/forgot-password",

@@ -1,10 +1,11 @@
-import { useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import useFetchedData from "../hooks/useFetchedData";
 import LoadingState from "./LoadingState";
 
 const ChallengeDetails = () => {
   const {id} = useParams();
-  const [data, loading] = useFetchedData(`/challanges/${id}`, {params: {dataLimit: 0}});
+  const navigate = useNavigate();
+  const [data, loading] = useFetchedData(`/challenges/${id}`, {params: {dataLimit: 0}});
 
   if (loading) { return <LoadingState></LoadingState> }
   return (
@@ -41,7 +42,7 @@ const ChallengeDetails = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <button className="w-full primary-btn">
+            <button className="w-full primary-btn" onClick={() => navigate(`/challenges/join/${id}`)}>
               Join Challenge
             </button>
           </div>

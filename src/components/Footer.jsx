@@ -20,7 +20,7 @@ const Footer = () => {
                     <h1 className='text-3xl text-(--primary-color) font-bold'>Quick Links</h1>
                     <ul className='flex flex-col mt-4 gap-2 ml-2'>
                         <li><Link to={"/"}>Home</Link></li>
-                        <li><Link to={"/challanges"}>Challanges</Link></li>
+                        <li><Link to={"/challenges"}>Challenges</Link></li>
                         <li className='cursor-pointer'>About</li>
                         <li className='cursor-pointer'>Contact</li>
                         <li className='cursor-pointer'>Terms and Conditions</li>

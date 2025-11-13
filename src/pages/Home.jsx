@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FaArrowLeft, FaArrowRight, FaGlobeAsia, FaLeaf, FaRecycle } from "react-icons/fa";
-import ChallangesCard from "../components/ChallangesCard";
+import ChallengesCard from "../components/ChallengesCard";
 import TipsCard from "../components/TipsCard";
 import EventsCard from "../components/EventsCard";
 import useFetchedData from "../hooks/useFetchedData";
@@ -13,8 +13,8 @@ import { useNavigate } from "react-router";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [sliderData, loadingS] = useFetchedData("/challanges", {params: {dataLimit: 8}});
-  const [challangesData, loadingC] = useFetchedData("/challanges", {params: {dataLimit: 6}});
+  const [sliderData, loadingS] = useFetchedData("/challenges", {params: {dataLimit: 8}});
+  const [challengesData, loadingC] = useFetchedData("/challenges", {params: {dataLimit: 6}});
   const [tipsData, loadingT] = useFetchedData("/tips", {params: {dataLimit: 5}});
   const [eventsData, loadingE] = useFetchedData("/events", {params: {dataLimit: 4}});
 
@@ -84,17 +84,17 @@ const Home = () => {
 
         <div className="flex flex-col items-center mt-16">
           <h2 className="text-2xl text-center md:text-3xl font-bold text-gray-800 mb-8">
-            Active Challanges
+            Active Challenges
           </h2>
             {
               loadingC && <div className="py-12 w-full"><LoadingState></LoadingState></div>
             }
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
             {
-              !loadingC && challangesData.map(item => <ChallangesCard data={item} key={item._id}></ChallangesCard>)
+              !loadingC && challengesData.map(item => <ChallengesCard data={item} key={item._id}></ChallengesCard>)
             }
           </div>
-          <button className="primary-btn mt-12" onClick={() => navigate("challanges")}>View All Challanges</button>
+          <button className="primary-btn mt-12" onClick={() => navigate("challenges")}>View All Challenges</button>
         </div>
 
         <div className="flex flex-col items-center mt-16">
@@ -258,7 +258,7 @@ const SliderCards = ({data, navigate}) => {
       <div className="absolute flex flex-col items-center justify-center w-full h-full top-0 scale-[0.6] md:scale-100">
         <h1 className="text-4xl md:text-6xl text-white mb-4">{data.title}</h1>
         <p className="text-white max-w-[400px] text-center">{data.description}</p>
-        <button className="primary-btn mt-6" onClick={() => navigate(`/challanges/${data._id}`)}>View Challange</button>
+        <button className="primary-btn mt-6" onClick={() => navigate(`/challenges/${data._id}`)}>View Challenge</button>
       </div>
     </div>
   );

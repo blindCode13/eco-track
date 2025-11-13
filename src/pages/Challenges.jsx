@@ -1,18 +1,18 @@
 import LoadingState from '../components/LoadingState';
-import ChallangesCard from '../components/ChallangesCard';
+import ChallengesCard from '../components/ChallengesCard';
 import useFetchedData from '../hooks/useFetchedData';
 
-const Challanges = () => {
-    const [data, loading] = useFetchedData("/challanges", {params: { dataLimit: 0 }});
+const Challenges = () => {
+    const [data, loading] = useFetchedData("/challenges", {params: { dataLimit: 0 }});
     if (loading) { return <LoadingState></LoadingState> };
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 global-p-x">
             {
-                data.map(item => <ChallangesCard data={item} key={item._id}></ChallangesCard>)
+                data.map(item => <ChallengesCard data={item} key={item._id}></ChallengesCard>)
             }
         </div>
     );
 };
 
-export default Challanges;
+export default Challenges;
