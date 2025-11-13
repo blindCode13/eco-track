@@ -1,6 +1,7 @@
 import { Navigate, useNavigate, useParams } from "react-router";
 import useFetchedData from "../hooks/useFetchedData";
 import LoadingState from "./LoadingState";
+import NotFound from "./NotFound";
 
 const ChallengeDetails = () => {
   const {id} = useParams();
@@ -8,6 +9,7 @@ const ChallengeDetails = () => {
   const [data, loading] = useFetchedData(`/challenges/${id}`, {params: {dataLimit: 0}});
 
   if (loading) { return <LoadingState></LoadingState> }
+  if (data.length === 0) {return <NotFound></NotFound>}
   return (
     <section className="mt-18 bg-gray-50 flex items-center justify-center py-12 global-p-x">
       <div className="max-w-5xl w-full bg-white rounded-2xl shadow-md overflow-hidden flex flex-col lg:flex-row">

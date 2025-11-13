@@ -5,6 +5,7 @@ import { use, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import NotFound from "./NotFound";
 
 const ChallengeJoin = () => {
 
@@ -17,6 +18,7 @@ const ChallengeJoin = () => {
 
 
   if (loading || loadingU) { return <LoadingState></LoadingState> };
+  if (data.length === 0) {return <NotFound></NotFound>}
   const date = new Date();
 
   const sendData = {
@@ -72,7 +74,7 @@ const ChallengeJoin = () => {
         <div className="mt-8">
           {
             userChallengeData ? 
-              <button className="primary-btn w-full" onClick={() => navigate(`/my-activities/${userChallengeData._id}`)}>
+              <button className="primary-btn w-full" onClick={() => navigate(`/my-activities/${userChallengeData.challengeId}`)}>
                 Track Progress
               </button> : 
               <button className="primary-btn w-full" onClick={handleJoinReq}>

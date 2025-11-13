@@ -7,6 +7,7 @@ import { use } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import NotFound from "./NotFound";
 
 const TrackChallenge = () => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const TrackChallenge = () => {
   const [impact, setImpact] = useState("");
 
   if (loadingU || loadingC) return <LoadingState />;
+  if (userChallengeData.length === 0) {return <NotFound></NotFound>}
 
   const { title, progress, duration } = userChallengeData;
 

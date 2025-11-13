@@ -2,10 +2,10 @@ import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home";
 import Challenges from "../pages/Challenges";
-import ChallengeDetails from "../components/ChallangeDetails";
+import ChallengeDetails from "../components/ChallengeDetails";
 import ChallengeJoin from "../components/ChallengeJoin";
 import TrackChallenge from '../components/TrackChallenge';
-import AddChallenge from '../pages/AddChallange';
+import AddChallenge from '../pages/AddChallenge';
 import Tips from "../pages/Tips";
 import Events from "../pages/Events";
 import Login from "../pages/Auth/Login";
@@ -14,6 +14,8 @@ import Profile from "../pages/Profile";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import PrivateRoute from "./PrivateRoute";
 import MyActivities from "../pages/MyActivities";
+import EditChallenge from "../pages/EditChallenge";
+import NotFound from "../components/NotFound";
 
 
 export const routes = createBrowserRouter([
@@ -35,7 +37,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/challenges/join/:id",
-                Component: ChallengeJoin
+                element: <PrivateRoute><ChallengeJoin></ChallengeJoin></PrivateRoute>
             },
             {
                 path: "/my-activities",
@@ -48,6 +50,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/challenges/add",
                 element: <PrivateRoute><AddChallenge></AddChallenge></PrivateRoute>
+            },
+            {
+                path: "/challenges/edit/:id",
+                element: <PrivateRoute><EditChallenge></EditChallenge></PrivateRoute>
             },
             {
                 path: "/tips",
@@ -72,6 +78,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/forgot-password",
                 Component: ForgotPassword
+            },
+            {
+                path: "*",
+                Component: NotFound
             }
         ]
     }

@@ -20,9 +20,12 @@ const MyActivities = () => {
           My Challenges
         </h2>
 
+        {
+            myChallenges.length === 0 && "No challenges found."
+        }
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {
-            myChallenges.map(item => <MyChallenges key={item._id} data={item}></MyChallenges>)
+            myChallenges.map(item => <MyChallenges key={item._id} data={item} navigate={navigate}></MyChallenges>)
           }
         </div>
       </section>
@@ -31,7 +34,9 @@ const MyActivities = () => {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Ongoing Challenges
         </h2>
-
+            {
+                ongoingChallenges.length === 0 && "No challenges found."
+            }
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {
                 ongoingChallenges.map(item => <OngoingChallenges key={item.challengeId} data={item} navigate={navigate}></OngoingChallenges>)
@@ -42,7 +47,7 @@ const MyActivities = () => {
   );
 };
 
-const MyChallenges = ({data}) => {
+const MyChallenges = ({data, navigate}) => {
     return (
         <div className="bg-white p-5 rounded-xl shadow hover:shadow-md transition">
             <h3 className="text-lg font-semibold text-gray-900">
@@ -52,11 +57,11 @@ const MyChallenges = ({data}) => {
               Created by you • Duration: {data.duration}
             </p>
 
-            <div className="mt-4 flex items-center gap-2">
-                <button className="primary-btn w-full">
+            <div className="mt-4 flex items-center gap-4">
+                <button className="primary-btn w-full" onClick={() => navigate(`/challenges/${data._id}`)}>
                     View Details
                 </button>
-                <button className="secondery-btn w-full">
+                <button className="secondery-btn w-full" onClick={() => navigate(`/challenges/edit/${data._id}`)}>
                     Edit
                 </button>
             </div>
