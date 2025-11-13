@@ -20,9 +20,11 @@ const ChallengeJoin = () => {
   const date = new Date();
 
   const sendData = {
+    title: data.title,
     userId: user.email,
     challengeId: data._id,
     status: "Not Started",
+    duration: data.duration,
     progress: 0,
     joinDate: date.toISOString()
   }

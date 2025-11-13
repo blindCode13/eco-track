@@ -141,7 +141,7 @@ const ProfileDropdown = ({setDropDown, userData, setModalShow, navigate}) => {
       </div>
 
       <div className="py-2">
-        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer">
+        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer" onClick={() => {navigate("/my-activities"); setDropDown(false)}}>
           <FaRunning className="text-(--primary-color)" />
           My Activities
         </button>

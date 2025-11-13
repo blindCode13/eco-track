@@ -13,6 +13,7 @@ import Register from "../pages/Auth/Register";
 import Profile from "../pages/Profile";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import PrivateRoute from "./PrivateRoute";
+import MyActivities from "../pages/MyActivities";
 
 
 export const routes = createBrowserRouter([
@@ -37,7 +38,11 @@ export const routes = createBrowserRouter([
                 Component: ChallengeJoin
             },
             {
-                path: "/my-activities/track",
+                path: "/my-activities",
+                Component: MyActivities
+            },
+            {
+                path: "/my-activities/:id",
                 Component: TrackChallenge
             },
             {
