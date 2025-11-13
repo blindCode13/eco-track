@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import useFetchedData from "../hooks/useFetchedData";
 import LoadingState from "./LoadingState";
-import { use } from "react";
+import { use, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -12,7 +12,8 @@ const ChallengeJoin = () => {
   const {id} = useParams();
   const {user} = use(AuthContext);
   const [data, loading] = useFetchedData(`/challenges/${id}`);
-  const [userChallengeData, loadingU] = useFetchedData(`/userChallenges/${id}`);
+  const [reload, setReload] = useState(0);
+  const [userChallengeData, loadingU] = useFetchedData(`/userChallenges?challengeId=${id}&userId=${user.email}&r=${reload}`);
 
 
   if (loading || loadingU) { return <LoadingState></LoadingState> };
@@ -28,8 +29,12 @@ const ChallengeJoin = () => {
 
   const handleJoinReq = () => {
     axios.post("http://localhost:3000/userChallenges", sendData)
-      .then(() => toast.success("Successfully Joined"))
-      .catch(err => toast(err))
+      .then(() => {
+        axios.patch(`http://localhost:3000/challenges/${id}`, {increment: true})
+          .then(() => {toast.success("Successfully Joined"); setReload(init => init+1)})
+          .catch(err => toast.error(err));
+      })
+      .catch(err => toast.error(err))
   }
 
   return (
@@ -65,7 +70,7 @@ const ChallengeJoin = () => {
         <div className="mt-8">
           {
             userChallengeData ? 
-              <button className="primary-btn w-full" onClick={() => navigate("/track")}>
+              <button className="primary-btn w-full" onClick={() => navigate(`/my-activities/${userChallengeData._id}`)}>
                 Track Progress
               </button> : 
               <button className="primary-btn w-full" onClick={handleJoinReq}>

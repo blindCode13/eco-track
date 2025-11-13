@@ -33,7 +33,7 @@ const ChallengesCard = ({data}) => {
                     </div>
                     <div className='text-center w-full'>
                         <h1 className='text-(--primary-color) font-bold mb-0.5'>{data.startDate}</h1>
-                        <h1 className='text-xs text-gray-600 font-bold'>Started At</h1>
+                        <h1 className='text-xs text-gray-600 font-bold'>Starting Date</h1>
                     </div>
                 </div>
                 <div className='flex items-center justify-between gap-4'>

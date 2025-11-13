@@ -12,6 +12,7 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Profile from "../pages/Profile";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+import PrivateRoute from "./PrivateRoute";
 
 
 export const routes = createBrowserRouter([
@@ -41,7 +42,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/challenges/add",
-                Component: AddChallenge
+                element: <PrivateRoute><AddChallenge></AddChallenge></PrivateRoute>
             },
             {
                 path: "/tips",
@@ -61,7 +62,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/profile",
-                Component: Profile
+                element: <PrivateRoute><Profile></Profile></PrivateRoute>
             },
             {
                 path: "/forgot-password",

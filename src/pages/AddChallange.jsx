@@ -1,5 +1,33 @@
+import { use } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddChallenge = () => {
+
+  const {user} = use(AuthContext);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const title = e.target.title.value;
+    const category = e.target.category.value;
+    const description = e.target.description.value;
+    const duration = e.target.duration.value;
+    const target = e.target.target.value;
+    const participants = 0;
+    const impactMetric = e.target.impactMetric.value;
+    const createdBy = user.email;
+    const startDate = e.target.startDate.value;
+    const endDate = e.target.endDate.value;
+    const imageUrl = e.target.imageUrl.value;
+
+    const data = {title, category, description, duration, target, participants, impactMetric, createdBy, startDate, endDate, imageUrl}
+
+    axios.post("http://localhost:3000/challenges", data)
+      .then(() => toast.success("Successfully added the challenge"))
+      .catch(err => toast.error(err))
+  }
+
   return (
     <div className="mt-2 flex items-center justify-center bg-gray-50 global-p-x py-10">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-2xl">
@@ -7,7 +35,7 @@ const AddChallenge = () => {
           Add New Challenge
         </h2>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleFormSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">

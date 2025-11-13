@@ -1,13 +1,14 @@
 import { use, useEffect, useState } from "react";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import LoginImage from "../../assets/login_bg.png";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
 import LoadingState from "../../components/LoadingState";
 import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const {user, signInUser, loading, setLoading, signInWithGoogle} = use(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
@@ -16,8 +17,11 @@ export default function Login() {
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).{6,}$/;
 
   useEffect(() => {
-      if (user) { navigate("/") }
-    }, [navigate, user]);
+      if (user) {
+        if (location.state) { navigate(location.state) }
+        else { navigate("/") }
+      }
+    }, [navigate, user, location]);
 
   if (loading) { return <LoadingState></LoadingState> }
 
