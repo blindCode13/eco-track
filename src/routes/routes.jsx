@@ -16,6 +16,8 @@ import PrivateRoute from "./PrivateRoute";
 import MyActivities from "../pages/MyActivities";
 import EditChallenge from "../pages/EditChallenge";
 import NotFound from "../components/NotFound";
+import TipDetails from "../components/TipsDetails";
+import EventDetails from "../components/EventDetails";
 
 
 export const routes = createBrowserRouter([
@@ -60,8 +62,16 @@ export const routes = createBrowserRouter([
                 Component: Tips
             },
             {
+                path: "/tips/:id",
+                Component: TipDetails
+            },
+            {
                 path: "/events",
                 Component: Events
+            },
+            {
+                path: "/events/:id",
+                Component: EventDetails
             },
             {
                 path: "/login",

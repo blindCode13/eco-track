@@ -17,7 +17,7 @@ const TrackChallenge = () => {
   const [userChallengeData, loadingU] = useFetchedData(
     `/userChallenges?challengeId=${id}&userId=${user.email}&r=${reload}`
   );
-  const [challengeData, loadingC] = useFetchedData(`/challenges/${id}`, {params: {dataLimit: 0}});
+  const [challengeData, loadingC] = useFetchedData(`/challenges/${id}?r=${reload}`, {params: {dataLimit: 0}});
 
   const [showModal, setShowModal] = useState(false);
   const [impact, setImpact] = useState("");
@@ -53,14 +53,13 @@ const TrackChallenge = () => {
     axios.patch(`http://localhost:3000/userChallenges?challengeId=${id}&userId=${user.email}`, {increment: true})
       .then(() => {
         axios.patch(`http://localhost:3000/challenges/${id}`, {dataForPatch: dataToSend})
-          .then(() => {
+          .then((res) => {
             toast.success("You have fullfilled your challenge for the day. Keep it up!!");
             setReload(init => init+1);
+
           })
         
       })
-    // You will PATCH here with progress+1 and impact
-    // After success → reload / re-mount
 
     closeModal();
   };

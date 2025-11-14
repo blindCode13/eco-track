@@ -31,7 +31,7 @@ const TipsCard = ({data}) => {
 				</div>
 
 
-				<Link to={"/"}>
+				<Link to={`/tips/${data._id}`}>
 					<p className="text-(--primary-color) font-semibold hover:underline">Read Article →
 					</p>
 				</Link>

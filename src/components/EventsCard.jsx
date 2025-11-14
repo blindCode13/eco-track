@@ -1,8 +1,10 @@
 
 import { format } from 'date-fns';
 import { FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 const EventsCard = ({data}) => {
+  const navigate = useNavigate();
     return (
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between">
       <div>
@@ -27,7 +29,7 @@ const EventsCard = ({data}) => {
           </p>
         </div>
 
-        <button className="primary-btn">
+        <button className="primary-btn" onClick={() => navigate(`/events/${data._id}`)}>
           View Details
         </button>
       </div>
