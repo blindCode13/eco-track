@@ -32,9 +32,9 @@ const ChallengeJoin = () => {
   }
 
   const handleJoinReq = () => {
-    axios.post("http://localhost:3000/userChallenges", sendData)
+    axios.post("https://eco-track-server-eta.vercel.app/userChallenges", sendData)
       .then(() => {
-        axios.patch(`http://localhost:3000/challenges/${id}`, {increment: true})
+        axios.patch(`https://eco-track-server-eta.vercel.app/challenges/${id}`, {increment: true})
           .then(() => {toast.success("Successfully Joined"); setReload(init => init+1)})
           .catch(err => toast.error(err));
       })

@@ -50,9 +50,9 @@ const TrackChallenge = () => {
       dataToSend = metricVal + " " + splited.join(" ");
     }
 
-    axios.patch(`http://localhost:3000/userChallenges?challengeId=${id}&userId=${user.email}`, {increment: true})
+    axios.patch(`https://eco-track-server-eta.vercel.app/userChallenges?challengeId=${id}&userId=${user.email}`, {increment: true})
       .then(() => {
-        axios.patch(`http://localhost:3000/challenges/${id}`, {dataForPatch: dataToSend})
+        axios.patch(`https://eco-track-server-eta.vercel.app/challenges/${id}`, {dataForPatch: dataToSend})
           .then((res) => {
             toast.success("You have fullfilled your challenge for the day. Keep it up!!");
             setReload(init => init+1);

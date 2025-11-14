@@ -21,7 +21,7 @@ const EditChallenge = () => {
 
     const handleChallengeDelete = () => {
         setShowModal(false);
-        axios.delete(`http://localhost:3000/challenges/${id}`)
+        axios.delete(`https://eco-track-server-eta.vercel.app/challenges/${id}`)
             .then(() => toast.success("Successfully deleted the chellenge"))
             .catch(err => toast.error(err.message))
             .finally(() => navigate("/"));
@@ -44,7 +44,7 @@ const EditChallenge = () => {
 
     const data = {title, category, description, duration, target, participants, impactMetric, createdBy, startDate, endDate, imageUrl}
 
-    axios.post("http://localhost:3000/challenges", data)
+    axios.post("https://eco-track-server-eta.vercel.app/challenges", data)
       .then(() => toast.success("Successfully added the challenge"))
       .catch(err => toast.error(err))
   }
