@@ -1,6 +1,6 @@
 # EcoTrack – Sustainable Challenge & Activity Tracker
 
-Live Site: https://your-live-site-url.com
+Live Site: https://eco-track314.netlify.app/
 
 EcoTrack is a sustainability-focused web platform that allows users to join challenges, track their daily eco-activities, share helpful tips, and participate in community events. It promotes greener habits through simple, interactive features.
 
