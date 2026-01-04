@@ -8,7 +8,7 @@ import LoadingState from "../../components/LoadingState";
 const Overview = () => {
   const {user} = use(AuthContext);
   const {data: stats = [], isLoading} = useQuery({
-    queryKey: ['totalChallenges'],
+    queryKey: ['totalChallenges', 'joinedChallenges', 'participants'],
     queryFn: async () => {
       const result = await axios(`${import.meta.env.VITE_API_URL}/userStats?email=${user.email}`);
       return result.data;
