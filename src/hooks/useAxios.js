@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const axiosInstance = axios.create({ baseURL: "https://eco-track-server-eta.vercel.app" });
+const axiosInstance = axios.create({ baseURL: import.meta.env.VITE_API_URL });
 
 export const useAxios = () => {
     return axiosInstance;

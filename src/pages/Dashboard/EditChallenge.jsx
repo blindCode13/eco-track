@@ -1,38 +1,68 @@
-import { use } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { use, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router";
+import LoadingState from "../../components/LoadingState";
+import Modal from "../../components/Modal";
+import { IoIosWarning } from "react-icons/io";
+import NotFound from "../../components/NotFound";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 
-const AddChallenge = () => {
+const EditChallenge = () => {
+    const navigate = useNavigate();
+    const {id} = useParams();
+    const {user} = use(AuthContext);
+    const [showModal, setShowModal] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
-  const {user} = use(AuthContext);
+    const {data: challengeData = {}, isLoading} = useQuery({
+      queryKey: [id],
+      queryFn: async () => {
+        const result = await axios(`${import.meta.env.VITE_API_URL}/challenges/${id}`, {params: {dataLimit: 0}});
+        return result.data
+      }
+    });
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const title = e.target.title.value;
-    const category = e.target.category.value;
-    const description = e.target.description.value;
-    const duration = e.target.duration.value;
-    const target = e.target.target.value;
-    const participants = 0;
-    const impactMetric = e.target.impactMetric.value;
-    const createdBy = user.email;
-    const startDate = e.target.startDate.value;
-    const endDate = e.target.endDate.value;
-    const imageUrl = e.target.imageUrl.value;
+    if (isLoading || isProcessing) {return <LoadingState></LoadingState>}
+    if (challengeData.length === 0) {return <NotFound></NotFound>}
+
+    const handleChallengeDelete = () => {
+      setIsProcessing(true);
+        setShowModal(false);
+        axios.delete(`${import.meta.env.VITE_API_URL}/challenges/${id}`)
+            .then(() => toast.success("Successfully deleted the chellenge"))
+            .catch(err => toast.error(err.message))
+            .finally(() => {setIsProcessing(false); navigate("/");});
+    }
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        const title = e.target.title.value;
+        const category = e.target.category.value;
+        const description = e.target.description.value;
+        const duration = e.target.duration.value;
+        const target = e.target.target.value;
+        const participants = 0;
+        const impactMetric = e.target.impactMetric.value;
+        const createdBy = user.email;
+        const startDate = e.target.startDate.value;
+        const endDate = e.target.endDate.value;
+        const imageUrl = e.target.imageUrl.value;
 
     const data = {title, category, description, duration, target, participants, impactMetric, createdBy, startDate, endDate, imageUrl}
-
-    axios.post("https://eco-track-server-eta.vercel.app/challenges", data)
-      .then(() => toast.success("Successfully added the challenge"))
+    setIsProcessing(true);
+    axios.patch(`${import.meta.env.VITE_API_URL}/challenges/edit/${id}`, data)
+      .then(() => toast.success("Successfully edited the challenge"))
       .catch(err => toast.error(err))
+      .finally(() => setIsProcessing(false))
   }
 
   return (
     <div className="mt-2 flex items-center justify-center bg-gray-50 global-p-x py-10">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-2xl">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Add New Challenge
+          Edit Challenge
         </h2>
 
         <form className="space-y-5" onSubmit={handleFormSubmit}>
@@ -44,7 +74,7 @@ const AddChallenge = () => {
             <input
               type="text"
               name="title"
-              placeholder="Enter challenge title"
+              defaultValue={challengeData.title}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
               required
             />
@@ -57,6 +87,7 @@ const AddChallenge = () => {
             <select
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
               name="category"
+              defaultValue={challengeData.category}
               required
             >
               <option value="">Select category</option>
@@ -74,7 +105,7 @@ const AddChallenge = () => {
               Description
             </label>
             <textarea
-              placeholder="Write a short description..."
+              defaultValue={challengeData.description}
               rows="3"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
               name="description"
@@ -89,7 +120,7 @@ const AddChallenge = () => {
               </label>
               <input
                 type="number"
-                placeholder="Duration of the challenge"
+                defaultValue={challengeData.duration}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
                 name="duration"
                 required
@@ -102,7 +133,7 @@ const AddChallenge = () => {
               </label>
               <input
                 type="text"
-                placeholder="Target of the challenge"
+                defaultValue={challengeData.target}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
                 name="target"
                 required
@@ -117,6 +148,7 @@ const AddChallenge = () => {
               </label>
               <input
                 type="date"
+                defaultValue={challengeData.startDate}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
                 name="startDate"
                 required
@@ -129,6 +161,7 @@ const AddChallenge = () => {
               </label>
               <input
                 type="date"
+                defaultValue={challengeData.endDate}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
                 name="endDate"
                 required
@@ -142,7 +175,7 @@ const AddChallenge = () => {
             </label>
             <input
               type="text"
-              placeholder="Set impact metric for the challenge"
+              defaultValue={challengeData.impactMetric}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
               name="impactMetric"
               required
@@ -155,18 +188,49 @@ const AddChallenge = () => {
             </label>
             <input
               type="url"
-              placeholder="https://example.com/image.jpg"
+              defaultValue={challengeData.imageUrl}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)"
               name="imageUrl"
               required
             />
           </div>
 
-          <input type="submit" className="primary-btn w-full mt-4" value="Add Challenge"/>
+          <div className="flex flex-col lg:flex-row items-center gap-4 mt-4">
+            <input type="submit" className="primary-btn w-full" value="Edit Challenge"/>
+            <button type="button" className="w-full secondery-btn" onClick={() => {setShowModal(true)}}>
+                Delete Challenge
+            </button>
+          </div>
         </form>
+        {
+            showModal && 
+            <Modal>
+                            <div className="text-center">
+                                <div className="flex items-center justify-center w-14 h-14 mx-auto mb-4 rounded-full bg-(--primary-color)/10">
+                                    <IoIosWarning className="text-(--primary-color) text-2xl" />
+                                </div>
+        
+                                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                                    Delete
+                                </h2>
+                                <p className="text-gray-600 mb-6">
+                                    Are you sure you want to delete the challenge?
+                                </p>
+        
+                                <div className="flex justify-center gap-3">
+                                    <button className="secondery-btn cursor-pointer" onClick={() => setShowModal(false)}>
+                                        Cancel
+                                    </button>
+                                <button className="primary-btn cursor-pointer" onClick={handleChallengeDelete}>
+                                    Delete
+                                </button>
+                                </div>
+                            </div>
+                        </Modal>
+        }
       </div>
     </div>
   );
 };
 
-export default AddChallenge;
+export default EditChallenge;

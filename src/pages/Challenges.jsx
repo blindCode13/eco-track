@@ -1,7 +1,8 @@
 import LoadingState from '../components/LoadingState';
 import ChallengesCard from '../components/ChallengesCard';
-import useFetchedData from '../hooks/useFetchedData';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 const Challenges = () => {
     const [filters, setFilters] = useState({});
@@ -20,7 +21,13 @@ const Challenges = () => {
         
     };
 
-    const [data, loading] = useFetchedData(`/challenges?filters=${JSON.stringify(filters)}`, {params: { dataLimit: 0 }});
+    const {data = [], isLoading} = useQuery({
+      queryKey: [filters],
+      queryFn: async () => {
+        const result = await axios(`${import.meta.env.VITE_API_URL}/challenges?filters=${JSON.stringify(filters)}`, {params: { dataLimit: 0 }});
+        return result.data;
+      }
+    });
 
 
     return (
@@ -102,7 +109,7 @@ const Challenges = () => {
     </div>
         </div>
         {
-            loading && <LoadingState></LoadingState>
+            isLoading && <LoadingState></LoadingState>
         }
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 global-p-x">
             {

@@ -4,26 +4,31 @@ import Home from "../pages/Home";
 import Challenges from "../pages/Challenges";
 import ChallengeDetails from "../components/ChallengeDetails";
 import ChallengeJoin from "../components/ChallengeJoin";
-import TrackChallenge from '../components/TrackChallenge';
-import AddChallenge from '../pages/AddChallenge';
 import Tips from "../pages/Tips";
 import Events from "../pages/Events";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
-import Profile from "../pages/Profile";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import PrivateRoute from "./PrivateRoute";
-import MyActivities from "../pages/MyActivities";
-import EditChallenge from "../pages/EditChallenge";
 import NotFound from "../components/NotFound";
 import TipDetails from "../components/TipsDetails";
 import EventDetails from "../components/EventDetails";
+import DashboardLayout from "../layouts/DashboardLayout";
+import Error from "../components/Error";
+import AddChallenge from "../pages/Dashboard/AddChallenge";
+import EditChallenge from "../pages/Dashboard/EditChallenge";
+import MyChallenges from "../pages/Dashboard/MyChallenges";
+import MyTasks from "../pages/Dashboard/MyTasks";
+import Profile from "../pages/Dashboard/Profile";
+import Overview from "../pages/Dashboard/Overview";
+import TrackChallenge from "../pages/Dashboard/TrackChallenge";
 
 
 export const routes = createBrowserRouter([
     {
         path: "/",
         Component: RootLayout,
+        errorElement: <Error/>,
         children: [
             {
                 index: true,
@@ -40,22 +45,6 @@ export const routes = createBrowserRouter([
             {
                 path: "/challenges/join/:id",
                 element: <PrivateRoute><ChallengeJoin></ChallengeJoin></PrivateRoute>
-            },
-            {
-                path: "/my-activities",
-                Component: MyActivities
-            },
-            {
-                path: "/my-activities/:id",
-                Component: TrackChallenge
-            },
-            {
-                path: "/challenges/add",
-                element: <PrivateRoute><AddChallenge></AddChallenge></PrivateRoute>
-            },
-            {
-                path: "/challenges/edit/:id",
-                element: <PrivateRoute><EditChallenge></EditChallenge></PrivateRoute>
             },
             {
                 path: "/tips",
@@ -82,17 +71,48 @@ export const routes = createBrowserRouter([
                 Component: Register
             },
             {
-                path: "/profile",
-                element: <PrivateRoute><Profile></Profile></PrivateRoute>
-            },
-            {
                 path: "/forgot-password",
                 Component: ForgotPassword
-            },
-            {
-                path: "*",
-                Component: NotFound
             }
         ]
+    },
+    {
+        path: "/dashboard",
+        errorElement: <Error/>,
+        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        children: [
+            {
+                index: true,
+                Component: Overview
+            },
+            {
+                path: "/dashboard/add-challenge",
+                Component: AddChallenge
+            },
+            {
+                path: "/dashboard/edit-challenge/:id",
+                Component: EditChallenge
+            },
+            {
+                path: "/dashboard/my-challenges",
+                Component: MyChallenges
+            },
+            {
+                path: "/dashboard/my-tasks",
+                Component: MyTasks
+            },
+            {
+                path: "/dashboard/track-challenge/:id",
+                Component: TrackChallenge
+            },
+            {
+                path: "/dashboard/profile",
+                Component: Profile
+            }
+        ]
+    },
+    {
+        path: "*",
+        Component: NotFound
     }
 ]);

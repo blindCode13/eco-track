@@ -1,18 +1,19 @@
 import { useState } from "react";
-import Modal from "../components/Modal";
+import Modal from "../../components/Modal";
 import { useParams } from "react-router";
-import LoadingState from "./LoadingState";
-import useFetchedData from "../hooks/useFetchedData";
+import LoadingState from "../../components/LoadingState";
+import useFetchedData from "../../hooks/useFetchedData";
 import { use } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import NotFound from "./NotFound";
+import NotFound from "../../components/NotFound";
 
 const TrackChallenge = () => {
   const { id } = useParams();
   const { user } = use(AuthContext);
   const [reload, setReload] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const [userChallengeData, loadingU] = useFetchedData(
     `/userChallenges?challengeId=${id}&userId=${user.email}&r=${reload}`
@@ -22,7 +23,7 @@ const TrackChallenge = () => {
   const [showModal, setShowModal] = useState(false);
   const [impact, setImpact] = useState("");
 
-  if (loadingU || loadingC) return <LoadingState />;
+  if (loadingU || loadingC || isProcessing) return <LoadingState />;
   if (userChallengeData.length === 0) {return <NotFound></NotFound>}
 
   const { title, progress, duration } = userChallengeData;
@@ -50,15 +51,15 @@ const TrackChallenge = () => {
       dataToSend = metricVal + " " + splited.join(" ");
     }
 
-    axios.patch(`https://eco-track-server-eta.vercel.app/userChallenges?challengeId=${id}&userId=${user.email}`, {increment: true})
+    setIsProcessing(true)
+    axios.patch(`${import.meta.env.VITE_API_URL}/userChallenges?challengeId=${id}&userId=${user.email}`, {increment: true})
       .then(() => {
-        axios.patch(`https://eco-track-server-eta.vercel.app/challenges/${id}`, {dataForPatch: dataToSend})
-          .then((res) => {
+        axios.patch(`${import.meta.env.VITE_API_URL}/challenges/${id}`, {dataForPatch: dataToSend})
+          .then(() => {
             toast.success("You have fullfilled your challenge for the day. Keep it up!!");
             setReload(init => init+1);
-
+            setIsProcessing(false);
           })
-        
       })
 
     closeModal();

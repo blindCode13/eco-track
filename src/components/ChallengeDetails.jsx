@@ -1,21 +1,28 @@
-import { Navigate, useNavigate, useParams } from "react-router";
-import useFetchedData from "../hooks/useFetchedData";
+import { useNavigate, useParams } from "react-router";
 import LoadingState from "./LoadingState";
-import NotFound from "./NotFound";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const ChallengeDetails = () => {
   const {id} = useParams();
   const navigate = useNavigate();
-  const [data, loading] = useFetchedData(`/challenges/${id}`, {params: {dataLimit: 0}});
 
-  if (loading) { return <LoadingState></LoadingState> }
-  if (data.length === 0) {return <NotFound></NotFound>}
+  const {data: challenge = [], isLoading} = useQuery({
+    queryKey: [id],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/challenges/${id}`, {params: {challengeLimit: 0}});
+      return result.data;
+    }
+  });
+
+  if (isLoading) { return <LoadingState></LoadingState> }
+  if (challenge.length === 0) {return navigate("/404", {replace: true})};
   return (
     <section className="mt-18 bg-gray-50 flex items-center justify-center py-12 global-p-x">
       <div className="max-w-5xl w-full bg-white rounded-2xl shadow-md overflow-hidden flex flex-col lg:flex-row">
         <div className="lg:w-1/2 w-full">
           <img
-            src={data.imageUrl}
+            src={challenge.imageUrl}
             className="w-full h-full"
           />
         </div>
@@ -23,23 +30,23 @@ const ChallengeDetails = () => {
         <div className="lg:w-1/2 w-full p-8 flex flex-col justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              {data.title}
+              {challenge.title}
             </h1>
             <p className="text-sm text-(--primary-color) font-semibold uppercase mb-4">
-              {data.category}
+              {challenge.category}
             </p>
 
             <p className="text-gray-600 leading-relaxed mb-12">
-              {data.description}
+              {challenge.description}
             </p>
 
             <div className="grid grid-cols-2 gap-2 text-gray-700 mb-8">
-              <p><span className="font-semibold">Duration:</span> {data.duration} days</p>
-              <p><span className="font-semibold">Target:</span> {data.target}</p>
-              <p><span className="font-semibold">Metric:</span> {data.impactMetric}</p>
-              <p><span className="font-semibold">Participants:</span> {data.participants} joined</p>
-              <p><span className="font-semibold">Start:</span> {data.startDate}</p>
-              <p><span className="font-semibold">End:</span> {data.endDate}</p>
+              <p><span className="font-semibold">Duration:</span> {challenge.duration} days</p>
+              <p><span className="font-semibold">Target:</span> {challenge.target}</p>
+              <p><span className="font-semibold">Metric:</span> {challenge.impactMetric}</p>
+              <p><span className="font-semibold">Participants:</span> {challenge.participants} joined</p>
+              <p><span className="font-semibold">Start:</span> {challenge.startDate}</p>
+              <p><span className="font-semibold">End:</span> {challenge.endDate}</p>
             </div>
           </div>
 
@@ -50,7 +57,7 @@ const ChallengeDetails = () => {
           </div>
 
           <p className="text-sm text-gray-500 mt-6">
-            Created by: <span className="font-medium text-gray-700">{data.createdBy}</span>
+            Created by: <span className="font-medium text-gray-700">{challenge.createdBy}</span>
           </p>
         </div>
       </div>

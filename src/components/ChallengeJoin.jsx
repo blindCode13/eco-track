@@ -1,23 +1,38 @@
 import { useNavigate, useParams } from "react-router";
-import useFetchedData from "../hooks/useFetchedData";
 import LoadingState from "./LoadingState";
 import { use, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import NotFound from "./NotFound";
+import { useQuery } from "@tanstack/react-query";
 
 const ChallengeJoin = () => {
 
   const navigate = useNavigate();
   const {id} = useParams();
   const {user} = use(AuthContext);
-  const [data, loading] = useFetchedData(`/challenges/${id}`);
-  const [reload, setReload] = useState(0);
-  const [userChallengeData, loadingU] = useFetchedData(`/userChallenges?challengeId=${id}&userId=${user.email}&r=${reload}`);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const {data = [], isLoading: loadingD} = useQuery({
+    queryKey: [id, 'participants'],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/challenges/${id}`);
+      return result.data;
+    }
+  });
+
+  const {data: userChallengeData = [], isLoading: loadingU, refetch} = useQuery({
+    queryKey: [id, user.email],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/userChallenges?challengeId=${id}&userId=${user.email}`);
+      return result.data;
+    }
+  });
+  
 
 
-  if (loading || loadingU) { return <LoadingState></LoadingState> };
+  if (loadingD || loadingU || isProcessing) { return <LoadingState></LoadingState> };
   if (data.length === 0) {return <NotFound></NotFound>}
   const date = new Date();
 
@@ -32,13 +47,15 @@ const ChallengeJoin = () => {
   }
 
   const handleJoinReq = () => {
-    axios.post("https://eco-track-server-eta.vercel.app/userChallenges", sendData)
+    setIsProcessing(true);
+    axios.post(`${import.meta.env.VITE_API_URL}/userChallenges`, sendData)
       .then(() => {
-        axios.patch(`https://eco-track-server-eta.vercel.app/challenges/${id}`, {increment: true})
-          .then(() => {toast.success("Successfully Joined"); setReload(init => init+1)})
+        axios.patch(`${import.meta.env.VITE_API_URL}/challenges/${id}`, {increment: true})
+          .then(() => {toast.success("Successfully Joined"); refetch(); setIsProcessing(false)})
           .catch(err => toast.error(err));
       })
       .catch(err => toast.error(err))
+      .finally(() => setIsProcessing(false))
   }
 
   return (
@@ -74,7 +91,7 @@ const ChallengeJoin = () => {
         <div className="mt-8">
           {
             userChallengeData ? 
-              <button className="primary-btn w-full" onClick={() => navigate(`/my-activities/${userChallengeData.challengeId}`)}>
+              <button className="primary-btn w-full" onClick={() => navigate(`/dashboard/track-challenge/${userChallengeData.challengeId}`)}>
                 Track Progress
               </button> : 
               <button className="primary-btn w-full" onClick={handleJoinReq}>

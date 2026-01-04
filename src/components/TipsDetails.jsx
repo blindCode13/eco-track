@@ -1,15 +1,24 @@
 import { FaLeaf, FaThumbsUp } from "react-icons/fa";
-import useFetchedData from "../hooks/useFetchedData";
 import LoadingState from "./LoadingState";
-import { useParams } from "react-router";
-import NotFound from "./NotFound";
+import { useNavigate, useParams } from "react-router";
 import { format } from "date-fns";
+import { useQuery } from '@tanstack/react-query';
+import axios from "axios";
 
 const TipDetails = () => {
     const {id} = useParams();
-    const [tip, loading] = useFetchedData(`/tips/${id}`, {params: {dataLimit: 0}});
-    if (loading) { return <LoadingState></LoadingState> }
-    if (tip.length === 0) {return <NotFound></NotFound>}
+    const navigate = useNavigate();
+    
+    const {data: tip = [], isLoading} = useQuery({
+      queryKey: [id],
+      queryFn: async () => {
+        const result = await axios(`${import.meta.env.VITE_API_URL}/tips/${id}`, {params: {dataLimit: 0}});
+        return result.data;
+      }
+    });
+
+    if (isLoading) { return <LoadingState></LoadingState> }
+    if (tip.length === 0) {return navigate("/404", {replace: true})};
   return (
     <div className="mt-18 flex items-center justify-center global-p-x py-14 bg-gray-50">
       <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full space-y-6">
@@ -36,7 +45,7 @@ const TipDetails = () => {
           </p>
           <p>Email: {tip.author}</p>
           <p>Upvotes: {tip.upvotes}</p>
-          <p>Created At: {format(new Date(tip.createdAt), "EEEE, dd MMMM yyyy")}</p>
+          <p>Created At: {format(new Date(tip.createdAt.toString()), "EEEE, dd MMMM yyyy")}</p>
         </div>
 
       </div>

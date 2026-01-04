@@ -1,14 +1,22 @@
 import { FaCalendarAlt, FaMapMarkerAlt, FaUserFriends } from "react-icons/fa";
-import { useParams } from "react-router";
-import useFetchedData from "../hooks/useFetchedData";
+import { useNavigate, useParams } from "react-router";
 import LoadingState from "./LoadingState";
-import NotFound from "./NotFound";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const EventDetails = () => {
     const {id} = useParams();
-    const [event, loading] = useFetchedData(`/events/${id}`, {params: {dataLimit: 0}});
-    if (loading) { return <LoadingState></LoadingState> }
-    if (event.length === 0) {return <NotFound></NotFound>}
+    const navigate = useNavigate();
+    const {data: event = [], isLoading} = useQuery({
+      queryKey: [id],
+      queryFn: async () => {
+        const result = await axios(`${import.meta.env.VITE_API_URL}/events/${id}`, {params: {dataLimit: 0}});
+        return result.data;
+      }
+    });
+
+    if (isLoading) { return <LoadingState></LoadingState> }
+    if (event.length === 0) {return navigate("/404", {replace: true})};
   return (
     <div className="mt-18 flex items-center justify-center global-p-x py-14 bg-gray-50">
       <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full space-y-6">

@@ -21,7 +21,7 @@ const EventsCard = ({data}) => {
         <div className="text-sm text-gray-700 space-y-1">
           <p className="flex items-center gap-2">
             <FaCalendarAlt className="text-(--primary-color)" />
-            <span><span className="font-semibold">Date: </span>{format(new Date(data.date), "EEEE, dd MMM yyyy · p")}</span>
+            <span><span className="font-semibold">Date: </span>{format(new Date(data.date.toString()), "EEEE, dd MMM yyyy · p")}</span>
           </p>
           <p className="flex items-center gap-2">
             <FaMapMarkerAlt className="text-(--primary-color)" />

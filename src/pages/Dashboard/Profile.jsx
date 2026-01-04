@@ -1,11 +1,11 @@
 import { use, useState } from "react";
 import { Link } from "react-router";
-import { AuthContext } from "../contexts/AuthContext";
-import UserDefault from '../assets/user_default.png';
+import { AuthContext } from "../../contexts/AuthContext";
+import UserDefault from '../../assets/user_default.png';
 import { toast } from "react-toastify";
 import { updateProfile } from "firebase/auth";
-import { auth } from "../firebase/firebase.config";
-import LoadingState from "../components/LoadingState";
+import { auth } from "../../firebase/firebase.config";
+import LoadingState from "../../components/LoadingState";
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);

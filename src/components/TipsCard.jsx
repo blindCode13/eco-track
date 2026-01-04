@@ -26,7 +26,7 @@ const TipsCard = ({data}) => {
 					</p>
 					<p>
 						<span className="font-semibold">Created At: </span>
-						{format(new Date(data.createdAt), "EEEE, dd MMMM yyyy")}
+						{format(new Date(data.createdAt.toString()), "EEEE, dd MMMM yyyy")}
 					</p>
 				</div>
 

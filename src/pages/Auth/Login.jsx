@@ -13,6 +13,8 @@ export default function Login() {
   const {user, signInUser, loading, setLoading, signInWithGoogle} = use(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [passError, setPassError] = useState('');
+  const [demoUser, setDemoUser] = useState('');
+  const [demoPass, setDemoPass] = useState('');
 
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).{6,}$/;
 
@@ -65,6 +67,7 @@ export default function Login() {
               <input
                 type="email" name="email"
                 placeholder="Enter your email"
+                defaultValue={demoUser}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)" required onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -75,6 +78,7 @@ export default function Login() {
                 <input
                   type={showPassword ? "text" : "password"} name="password"
                   placeholder="Enter your password"
+                  defaultValue={demoPass}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--primary-color)" required
                 />
                 <button
@@ -90,8 +94,9 @@ export default function Login() {
               }
             </div>
 
-            <span className="flex justify-end text-sm text-gray-500 hover:text-(--primary-color) cursor-pointer">
-              <Link to={"/forgot-password"} state={{email, path: location.pathname}}>Forgot your password?</Link>
+            <span className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500 cursor-pointer">
+              <div className="hover:text-(--primary-color)" onClick={() => {setDemoUser(import.meta.env.VITE_DEMO_USER); setDemoPass(import.meta.env.VITE_DEMO_PASS);}}>Auto fill demo credentials</div>
+              <Link to={"/forgot-password"} state={{email, path: location.pathname}} className="hover:text-(--primary-color)">Forgot your password?</Link>
             </span>
 
             <input type="submit" className="w-full primary-btn" value="Login"/>

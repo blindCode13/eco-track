@@ -1,14 +1,14 @@
 import { NavLink, useNavigate } from 'react-router';
-import Logo from '../assets/logo.png';
 import { IconContext } from 'react-icons';
 import { MdOutlineMenuOpen } from "react-icons/md";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { use, useState } from 'react';
-import { FaRunning, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { RiDashboardHorizontalFill } from "react-icons/ri";
 import { AuthContext } from '../contexts/AuthContext';
-import { toast } from 'react-toastify';
 import UserDefault from '../assets/user_default.png';
-import Modal from './Modal';
+import Logo from './Logo';
+import LogoutConfirmation from './LogoutConfirmation';
 
 const Navbar = () => {
     const {user, signOutUser, setLoading} = use(AuthContext);
@@ -20,9 +20,7 @@ const Navbar = () => {
     return (
         <nav className='fixed max-w-[1920px] w-full global-p-x py-4 shadow-sm z-20 bg-white'>
             <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-4 cursor-pointer' onClick={() => navigate("/")}>
-                <img src={Logo} className='size-10'/><h1 className='font-bold text-3xl'>EcoTrack</h1>
-            </div>
+            <Logo />
             <div className='hidden lg:flex'><NavMiddle></NavMiddle></div>
             <div className='flex items-center'>
                 <div className='hidden lg:flex'>
@@ -66,38 +64,7 @@ const Navbar = () => {
             </div>
 
             {
-                modalShow && 
-                <Modal>
-                    <div className="text-center">
-                        <div className="flex items-center justify-center w-14 h-14 mx-auto mb-4 rounded-full bg-(--primary-color)/10">
-                            <FaSignOutAlt className="text-(--primary-color) text-2xl" />
-                        </div>
-
-                         <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                            Log Out
-                        </h2>
-                        <p className="text-gray-600 mb-6">
-                            Are you sure you want to Log out of your account?
-                        </p>
-
-                        <div className="flex justify-center gap-3">
-                            <button className="secondery-btn cursor-pointer" onClick={() => setModalShow(false)}>
-                                Cancel
-                            </button>
-                        <button className="primary-btn cursor-pointer" onClick={() => {
-                            signOutUser()
-                                .then(() => {
-                                    toast.success("Successfully logged out.");
-                                    navigate("/");
-                                })
-                                .catch(err => toast.error(err.message))
-                                .finally(() => setLoading(false));
-                                }}>
-                            Log Out
-                        </button>
-                        </div>
-                    </div>
-                </Modal>
+                modalShow && <LogoutConfirmation setModalShow={setModalShow}></LogoutConfirmation>
             }
         </nav>
     );
@@ -110,7 +77,7 @@ const NavMiddle = () => {
             <li><NavLink to={"/challenges"} end>Challenges</NavLink></li>
             <li><NavLink to={"/tips"}>Tips</NavLink></li>
             <li><NavLink to={"/events"}>Events</NavLink></li>
-            <li><NavLink to={"/challenges/add"}>Add Challenge</NavLink></li>
+            <li><NavLink to={"/dashboard/add-challenge"}>Add Challenge</NavLink></li>
         </ul>
     );
 };
@@ -126,7 +93,7 @@ const Btns = ({navigate}) => {
 
 const ProfileDropdown = ({setDropDown, userData, setModalShow, navigate}) => {
   return (
-    <div className="absolute left-1/2 lg:left-auto -translate-x-1/2 lg:translate-x-0 lg:right-4 mt-6 lg:mt-18 w-64 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200 z-50">
+    <div className="absolute left-1/2 lg:left-auto -translate-x-1/2 lg:translate-x-0 lg:right-4 mt-6 lg:mt-18 w-72 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200 z-50">
       
       <div className="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
         <div>
@@ -141,12 +108,12 @@ const ProfileDropdown = ({setDropDown, userData, setModalShow, navigate}) => {
       </div>
 
       <div className="py-2">
-        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer" onClick={() => {navigate("/my-activities"); setDropDown(false)}}>
-          <FaRunning className="text-(--primary-color)" />
-          My Activities
+        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer" onClick={() => {navigate("/dashboard"); setDropDown(false)}}>
+          <RiDashboardHorizontalFill className="size-5 text-(--primary-color)" />
+          Dashboard
         </button>
 
-        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer" onClick={() => {navigate("/profile"); setDropDown(false)}}>
+        <button className="w-full flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-green-50 transition cursor-pointer" onClick={() => {navigate("/dashboard/profile"); setDropDown(false)}}>
           <FaUser className="text-(--primary-color)" />
           Profile
         </button>
